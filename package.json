@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Djn94/LIRIbot/issues"
   },
-  "homepage": "https://github.com/Djn94/LIRIbot#readme"
+  "homepage": "https://github.com/Djn94/LIRIbot#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }
