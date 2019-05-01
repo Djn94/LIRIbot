@@ -1,0 +1,13 @@
+	requires
+inquirer 
+axios
+
+
+
+command line displays instructions
+enter search-movies/songs/other || feeling lucky
+then
+depending on input
+run axios call
+select certain items of results
+console log them as returns
