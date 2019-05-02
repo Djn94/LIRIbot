@@ -20,17 +20,23 @@ console.log('Welcome to LIRIbot. Please enter your search query under the follow
 
 
 if (operator === 'search-concerts') {
+
     axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${keyword}&apikey=${exports.ticketmaster.id}`).then(
+
         function (response) {
-            console.log('this is a ticketmaster grab')
-            // console.log(response);
+            console.log(process.argv[3])
+            console.log(keyword)
+            console.log(response);
+
             console.log(response.data)
             const concertInformation = {
                 Name: response.name,
                 location: response.location,
-                date: moment(response.data) //MM/DD/YYYY
+                //     date: moment(response.data) //MM/DD/YYYY
 
             };
+            console.log(concertInformation);
+            console.log(concertInformation.Name)
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
