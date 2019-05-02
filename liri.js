@@ -1,9 +1,10 @@
 const axios = require("axios");
-const inquirer = require("inquirer");
+//const inquirer = require("inquirer");
 require("dotenv").config();
 const keys = require("./keys.js");
-const spotify = new Spotify(keys.spotify);
+//const spotify = new Spotify(keys.spotify);
 const operator = process.argv[2];
+let keyword = process.argv[3];
 exports.spotify = {
     id: process.env.SPOTIFY_ID,
     secret: process.env.SPOTIFY_SECRET
@@ -12,57 +13,92 @@ exports.ticketmaster = {
     id: process.env.ticketmaster_ID,
     secret: process.env.ticketmaster
 }
+console.log('Welcome to LIRIbot. Please enter your search query under the following format: search-(concerts/songs/movies) "keyword".')
+//console.log(exports.ticketmaster.id)
 
 
 
 
+if (operator === 'search-concerts') {
+    axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${keyword}&apikey=${exports.ticketmaster.id}`).then(
+        function (response) {
+            console.log('this is a ticketmaster grab')
+            // console.log(response);
+            console.log(response.data)
+            const concertInformation = {
+                Name: response.name,
+                location: response.location,
+                date: moment(response.data) //MM/DD/YYYY
 
-const concertInformation = {
-    Name: response.name,
-    location: response.location,
-    date: moment(response.data) //MM/DD/YYYY
-
+            };
+        }).catch(function (error) {
+            if (error.response) {
+                console.log(error.response.data);
+            }
+            else if (error.request) {
+                console.log(error.request);
+            }
+            else {
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
 };
-if (operator === 'search-concerts') { };
-axios.get(`TICKETMASTER_API_URL`).then(
-    function (response) {
+// if (operator === 'search-songs') { };
+// axios.get(`SPOTIFY_API_URL`).then(
+//     function (response) {
+//         console.log(response);
+//         const songInformation = {
+//             name: response.name,
+//             previewLink: s,//preview link from spotify api,
+//             album: response.album,
 
-        console.log(response);
-        const concertInformation = {
-            Name: response.name,
-            location: response.location,
-            date: moment(response.data) //MM/DD/YYYY
+//         };
+//     }).catch(function (error) {
+//         if (error.response) {
+//             console.log(error.response.data);
+//         } else if (error.request) {
+//             console.log(error.request);
+//         } else {
+//             console.log("Error", error.message);
+//         }
+//         console.log(error.config);
+//     });
 
-        };
-    })
-if (operator === 'search-songs') { };
-axios.get(`SPOTIFY_API_URL`).then(
-    function (response) {
-        console.log(response);
-        const songInformation = {
-            name: response.name,
-            previewLink: s,//preview link from spotify api,
-            album: response.album,
+// if (operator === 'search-movies') {
+//     ;
+//     if (keyword === "") {
+//         keyword = "Mr. Nobody"
+//     }
+//     axios.get(`http://www.omdbapi.com/?t=${keyword}&apikey=trilogy`).then(
+//         function (response) {
+//             // console.log(response.data.imdbRating)
+//             // console.log(response)
+//             const response = response.data;
+//             const movieInformation = {
+//                 name: response.title,
+//                 IMDBrating: response.IMDBrating,
+//                 rottenTomatos: response.rottenTomatos,
+//                 country: response.country,
+//                 language: response.language,
+//                 plot: response.plot,
+//                 actors: response.actors,
+//             };
+//         }).catch(function (error) {
+//             if (error.response) {
 
-        };
-    })
-if (operator === 'search-movies') { };
-axios.get(`http://www.omdbapi.com/?t=${movieTitle}&apikey=trilogy`).then(
-    function (response) {
-        console.log(response.data.imdbRating)
-        console.log(response)
-        const response = response.data;
-        const movieInformation = {
-            name: response.title,
-            IMDBrating: response.IMDBrating,
-            rottenTomatos: response.rottenTomatos,
-            country: response.country,
-            language: response.language,
-            plot: response.plot,
-            actors: response.actors,
-        };
-    })
-if (operator === 'feeling-lucky') { };
+//                 console.log(error.response.data);
+
+//             } else if (error.request) {
+
+//                 console.log(error.request);
+//             } else {
+//                 console.log("Error", error.message);
+//             }
+//             console.log(error.config);
+//         });
+// }
+// if (operator === 'feeling-lucky') { };
 
 
 
