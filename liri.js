@@ -24,19 +24,17 @@ if (operator === 'search-concerts') {
     axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${keyword}&apikey=${exports.ticketmaster.id}`).then(
 
         function (response) {
-            console.log(process.argv[3])
-            console.log(keyword)
-            console.log(response);
+            //console.log(process.argv[3])
+            //console.log(keyword)
+            //console.log(response);
 
-            console.log(response.data)
+            // console.log(response.data)
             const concertInformation = {
-                Name: response.name,
-                location: response.location,
-                //     date: moment(response.data) //MM/DD/YYYY
-
+                date: response.data._embedded.events[0].dates.start.localDate,
+                venue: response.data._embedded.events[0]._embedded.venues[0].name,                //     date: moment(response.data) //MM/DD/YYYY
+                location: response.data._embedded.events[0].dates.timezone,
             };
-            console.log(concertInformation);
-            console.log(concertInformation.Name)
+            console.log(concertInformation)
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
