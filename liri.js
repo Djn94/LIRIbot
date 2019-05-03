@@ -14,9 +14,9 @@ exports.ticketmaster = {
 }
 function spotifySearch() {
     console.log(keyword)
-    // if (keyword === undefined) {
-    //     keyword === "The Ace of Spades"
-    // }
+    if (keyword === undefined) {
+        keyword === "The sign"
+    }
     console.log(keyword)
     spotify.search({ type: 'track', query: `${keyword}`, limit: 1, offset: 0 }, function (err, response) {
         const songInfo = {
@@ -34,6 +34,9 @@ function spotifySearch() {
 function searchMovies() {
     axios.get(`http://www.omdbapi.com/?t=${keyword}&apikey=trilogy`).then(
         function (response) {
+            if (keyword === undefined) {
+                keyword === "Mr. Nobody"
+            }
             const movieInformation = {
                 Name: response.data.Title,
                 IMDBrating: response.data.Ratings[0],
