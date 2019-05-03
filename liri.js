@@ -13,6 +13,11 @@ exports.ticketmaster = {
     secret: process.env.ticketmaster
 }
 function spotifySearch() {
+    console.log(keyword)
+    // if (keyword === undefined) {
+    //     keyword === "The Ace of Spades"
+    // }
+    console.log(keyword)
     spotify.search({ type: 'track', query: `${keyword}`, limit: 1, offset: 0 }, function (err, response) {
         const songInfo = {
             songName: response.tracks.items[0].name,
