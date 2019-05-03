@@ -24,11 +24,6 @@ if (operator === 'search-concerts') {
     axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${keyword}&apikey=${exports.ticketmaster.id}`).then(
 
         function (response) {
-            //console.log(process.argv[3])
-            //console.log(keyword)
-            //console.log(response);
-
-            // console.log(response.data)
             const concertInformation = {
                 date: response.data._embedded.events[0].dates.start.localDate,
                 venue: response.data._embedded.events[0]._embedded.venues[0].name,                //     date: moment(response.data) //MM/DD/YYYY
@@ -48,6 +43,37 @@ if (operator === 'search-concerts') {
             console.log(error.config);
         });
 };
+if (operator === 'search-movies') {
+    axios.get(`http://www.omdbapi.com/?t=${keyword}&apikey=trilogy`).then(
+        function (response) {
+            console.log(response.data.Title)
+            const movieInformation = {
+                Name: response.data.Title,
+                IMDBrating: response.data.Ratings[0],
+                RottenTomatos: response.data.Ratings[1],
+                Country: response.data.Country,
+                Language: response.data.Language,
+                Plot: response.data.Plot,
+                Actors: response.data.Actors,
+            };
+            console.log('helo this is after')
+            console.log(movieInformation)
+        }).catch(function (error) {
+            if (error.response) {
+
+                console.log(error.response.data);
+
+                // } else if (error.request) {
+
+                //     console.log(error.request);
+                // } else {
+                //     console.log("Error", error.message);
+                // }
+                // console.log(error.config);
+                // });
+            }
+        })
+}
 // if (operator === 'search-songs') { };
 // axios.get(`SPOTIFY_API_URL`).then(
 //     function (response) {
@@ -69,39 +95,7 @@ if (operator === 'search-concerts') {
 //         console.log(error.config);
 //     });
 
-// if (operator === 'search-movies') {
-//     ;
-//     if (keyword === "") {
-//         keyword = "Mr. Nobody"
-//     }
-//     axios.get(`http://www.omdbapi.com/?t=${keyword}&apikey=trilogy`).then(
-//         function (response) {
-//             // console.log(response.data.imdbRating)
-//             // console.log(response)
-//             const response = response.data;
-//             const movieInformation = {
-//                 name: response.title,
-//                 IMDBrating: response.IMDBrating,
-//                 rottenTomatos: response.rottenTomatos,
-//                 country: response.country,
-//                 language: response.language,
-//                 plot: response.plot,
-//                 actors: response.actors,
-//             };
-//         }).catch(function (error) {
-//             if (error.response) {
 
-//                 console.log(error.response.data);
-
-//             } else if (error.request) {
-
-//                 console.log(error.request);
-//             } else {
-//                 console.log("Error", error.message);
-//             }
-//             console.log(error.config);
-//         });
-// }
 // if (operator === 'feeling-lucky') { };
 
 
