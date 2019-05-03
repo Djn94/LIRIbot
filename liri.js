@@ -1,5 +1,7 @@
-const axios = require("axios");
+
 require("dotenv").config();
+const axios = require("axios");
+const fs = require("fs");
 const keys = require("./keys.js");
 const Spotify = require('node-spotify-api')
 const spotify = new Spotify(keys.spotify);
@@ -64,24 +66,20 @@ if (operator === 'search-movies') {
         });
 }
 
-if (operator === 'search-songs') { };
-spotify.search({ type: 'track', query: `${keyword}`, limit: 1, offset: 0 }, function (err, response) {
-    //   console.log((response.tracks.items));
-    const songInfo = {
-        songName: response.tracks.items[0].name,
-        songPreview: response.tracks.items[0].preview_url,
-        songAlbum: response.tracks.items[0].album.name,
-        songArtist: response.tracks.items[0].album.artists[0].name,
-    }
-    //  console.log(response.tracks.items[0].album.name)
-    //console.log(songInfo)
-    // console.log(response.tracks.items[0].preview_url)
-    console.log(songInfo)
-    //song.storage
-    if (err) {
-        return console.log('Error occurred: ' + err);
-    }
-});
+if (operator === 'search-songs') {
+    spotify.search({ type: 'track', query: `${keyword}`, limit: 1, offset: 0 }, function (err, response) {
+        const songInfo = {
+            songName: response.tracks.items[0].name,
+            songPreview: response.tracks.items[0].preview_url,
+            songAlbum: response.tracks.items[0].album.name,
+            songArtist: response.tracks.items[0].album.artists[0].name,
+        }
+        console.log(songInfo)
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+    });
+}
 // if (operator === 'feeling-lucky') { };
 
 
