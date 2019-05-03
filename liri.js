@@ -1,5 +1,6 @@
 
 require("dotenv").config();
+const moment = require('moment');
 const axios = require("axios");
 const fs = require("fs");
 const keys = require("./keys.js");
@@ -28,7 +29,6 @@ function spotifySearch() {
 function searchMovies() {
     axios.get(`http://www.omdbapi.com/?t=${keyword}&apikey=trilogy`).then(
         function (response) {
-            console.log(response.data.Title)
             const movieInformation = {
                 Name: response.data.Title,
                 IMDBrating: response.data.Ratings[0],
@@ -38,7 +38,6 @@ function searchMovies() {
                 Plot: response.data.Plot,
                 Actors: response.data.Actors,
             };
-            console.log('helo this is after')
             console.log(movieInformation)
         }).catch(function (error) {
             if (error.response) {
@@ -58,8 +57,11 @@ function searchConcerts() {
     axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?keyword=${keyword}&apikey=${exports.ticketmaster.id}`).then(
 
         function (response) {
+            const dateParse = response.data._embedded.events[0].dates.start.localDate
+            const dateParsed = moment.parseZone(dateParse)
+            const newTime = moment(dateParsed, 'DD/MM/YYYY').format('DD/MM/YYYY');
             const concertInformation = {
-                date: response.data._embedded.events[0].dates.start.localDate,
+                date: newTime,
                 venue: response.data._embedded.events[0]._embedded.venues[0].name,
                 location: response.data._embedded.events[0].dates.timezone, //MM/DD/YYYY
             };
@@ -94,16 +96,11 @@ if (operator === 'feeling-lucky') {
         if (err) {
             return console.log(err);
         }
-        console.log(data)
-        let datasplit = data.split();
-        console.log(datasplit);
+        let datasplit = data.split(',');
+
         operator = datasplit[0];
-        keyword = datasplit[1]
-        console.log(datasplit[0])
-        console.log(keyword)
-        console.log(operator)
+        keyword = datasplit[1];
         if (operator === 'search-concerts') {
-            console.log('searchin concerts')
             searchConcerts();
         }
         if (operator === 'search-movies') {
@@ -114,14 +111,3 @@ if (operator === 'feeling-lucky') {
         }
     })
 };
-
-
-
-
-// node liri.js feeling-lucky
-
-// Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-
-// It should run search-songs for "I Want it That Way," as follows the text in random.txt.
-
-// Edit the text in random.txt to test out the feature for search-movies and search-concerts.
